@@ -3,74 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personalized Heart</title>
+    <title>Welcome</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            background-image: url('your-cute-background-image.jpg');
+            background-size: cover;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f0f0f0;
-            margin: 0;
+            font-family: Arial, sans-serif;
         }
         .container {
-            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
             padding: 20px;
-            background-color: #fff;
-            border: 2px solid #ccc;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .heart-container {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         .heart {
-            font-size: 50px;
-            color: red;
-            line-height: 1;
+            font-size: 48px;
+            color: pink;
+            text-align: center;
+            white-space: pre-wrap;
         }
         .message {
-            font-size: 24px;
             margin-top: 20px;
-            color: #333;
-        }
-        #main-page {
-            display: none;
+            font-size: 24px;
+            color: #ff69b4;
         }
     </style>
 </head>
 <body>
-    <div id="form-page">
-        <div class="container">
-            <h1>Enter your details</h1>
-            <form id="entry-form">
+    <div class="container">
+        <h1>Welcome</h1>
+        <form id="welcomeForm">
+            <div>
                 <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required><br><br>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
                 <label for="birthday">Birthday:</label>
-                <input type="date" id="birthday" name="birthday" required><br><br>
-                <button type="submit">Submit</button>
-            </form>
-        </div>
+                <input type="date" id="birthday" name="birthday" required>
+            </div>
+            <button type="submit">Enter</button>
+        </form>
     </div>
 
-    <div id="main-page">
-        <div class="container">
-            <div class="heart" id="heart"></div>
-            <div class="message">I adore you a lot, sweetheart</div>
-        </div>
+    <div class="heart-container" id="heartContainer">
+        <div class="heart" id="heart"></div>
+        <div class="message">I adore you a lot, sweetheart</div>
     </div>
 
     <script>
-        document.getElementById('entry-form').addEventListener('submit', function(event) {
+        document.getElementById('welcomeForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const name = document.getElementById('name').value;
-            const birthday = document.getElementById('birthday').value;
-
-            if (name && birthday) {
-                const heartContent = (name + birthday.replace(/-/g, '')).split('').sort(() => 0.5 - Math.random()).join('');
-                document.getElementById('heart').textContent = heartContent;
-
-                document.getElementById('form-page').style.display = 'none';
-                document.getElementById('main-page').style.display = 'block';
+            const heartContainer = document.getElementById('heartContainer');
+            const heart = document.getElementById('heart');
+            
+            let heartText = '';
+            for (let i = 0; i < 1000; i++) {
+                heartText += name[Math.floor(Math.random() * name.length)];
             }
+            
+            heart.textContent = heartText;
+            document.querySelector('.container').style.display = 'none';
+            heartContainer.style.display = 'flex';
         });
     </script>
 </body>
