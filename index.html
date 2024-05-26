@@ -3,101 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome</title>
+    <title>Special Page</title>
     <style>
-        body {
-            background-image: url('your-cute-background-image.jpg');
-            background-size: cover;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        body, html {
+            height: 100%;
+            margin: 0;
             font-family: Arial, sans-serif;
         }
-        .container {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-        }
-        .heart-container {
+        .entry-page, .main-page {
             display: none;
-            flex-direction: column;
+            height: 100%;
             justify-content: center;
             align-items: center;
+            text-align: center;
+        }
+        .entry-page.active, .main-page.active {
+            display: flex;
+        }
+        .entry-page {
+            background-image: url('https://photos.app.goo.gl/41BpYDkWyeyr79Mj8');
+            background-size: cover;
+        }
+        .main-page {
+            background-image: url('/mnt/data/IMG_7605.jpeg');
+            background-size: cover;
         }
         .heart {
-            font-size: 12px;
+            display: inline-block;
             color: pink;
-            text-align: center;
-            white-space: pre-wrap;
-            line-height: 1;
-        }
-        .message {
-            margin-top: 20px;
             font-size: 24px;
-            color: #ff69b4;
+            line-height: 1;
+            white-space: pre;
+            letter-spacing: 0.1em;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome</h1>
-        <form id="welcomeForm">
-            <div>
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div>
-                <label for="birthday">Birthday:</label>
-                <input type="date" id="birthday" name="birthday" required>
-            </div>
-            <button type="submit">Enter</button>
-        </form>
+    <div class="entry-page active">
+        <div>
+            <h1>Enter Your Details</h1>
+            <form id="entryForm">
+                <input type="text" id="name" placeholder="Your Name" required><br><br>
+                <input type="date" id="birthday" required><br><br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
     </div>
-
-    <div class="heart-container" id="heartContainer">
-        <div class="heart" id="heart"></div>
-        <div class="message">I adore you a lot, sweetheart</div>
+    <div class="main-page">
+        <div>
+            <div class="heart" id="heart"></div>
+            <h2>I adore you a lot, sweetheart</h2>
+        </div>
     </div>
 
     <script>
-        document.getElementById('welcomeForm').addEventListener('submit', function(event) {
+        document.getElementById('entryForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            const name = document.getElementById('name').value;
-            const heartContainer = document.getElementById('heartContainer');
-            const heart = document.getElementById('heart');
-            
-            const heartShape = [
-                '  ***     ***  ',
-                '******* *******',
-                ' ************* ',
-                '  ***********  ',
-                '   *********   ',
-                '    *******    ',
-                '     *****     ',
-                '      ***      ',
-                '       *       '
-            ];
-            
-            let heartText = '';
-            for (let row of heartShape) {
-                let line = '';
-                for (let char of row) {
-                    if (char === '*') {
-                        line += name[Math.floor(Math.random() * name.length)];
-                    } else {
-                        line += ' ';
-                    }
-                }
-                heartText += line + '\n';
+            var name = document.getElementById('name').value;
+            var birthday = document.getElementById('birthday').value;
+            if (name && birthday) {
+                createHeart(name);
+                document.querySelector('.entry-page').classList.remove('active');
+                document.querySelector('.main-page').classList.add('active');
             }
-            
-            heart.textContent = heartText;
-            document.querySelector('.container').style.display = 'none';
-            heartContainer.style.display = 'flex';
         });
+
+        function createHeart(name) {
+            var heart = document.getElementById('heart');
+            var chars = name.split('');
+            var heartShape = `
+               ***   ***
+             *     *     *
+           *           *
+             *       *
+               *   *
+                 *
+            `;
+            var filledHeart = heartShape.replace(/./g, function(char) {
+                return char === '*' ? chars[Math.floor(Math.random() * chars.length)] : char;
+            });
+            heart.innerHTML = filledHeart.replace(/\n/g, '<br>');
+        }
     </script>
 </body>
 </html>
