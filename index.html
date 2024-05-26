@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Heart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .heart {
+            font-size: 50px;
+            color: red;
+            line-height: 1;
+        }
+        .message {
+            font-size: 24px;
+            margin-top: 20px;
+            color: #333;
+        }
+        #main-page {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="form-page">
+        <div class="container">
+            <h1>Enter your details</h1>
+            <form id="entry-form">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required><br><br>
+                <label for="birthday">Birthday:</label>
+                <input type="date" id="birthday" name="birthday" required><br><br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="main-page">
+        <div class="container">
+            <div class="heart" id="heart"></div>
+            <div class="message">I adore you a lot, sweetheart</div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('entry-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const birthday = document.getElementById('birthday').value;
+
+            if (name && birthday) {
+                const heartContent = (name + birthday.replace(/-/g, '')).split('').sort(() => 0.5 - Math.random()).join('');
+                document.getElementById('heart').textContent = heartContent;
+
+                document.getElementById('form-page').style.display = 'none';
+                document.getElementById('main-page').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
